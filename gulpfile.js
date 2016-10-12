@@ -9,10 +9,10 @@ var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
 
 var babel = require("gulp-babel");
-// var browserify = require('browserify');
-// var babelify = require('babelify');
-// var buffer = require('vinyl-buffer');
-// var source = require('vinyl-source-stream');
+var browserify = require('browserify');
+var babelify = require('babelify');
+var buffer = require('vinyl-buffer');
+var source = require('vinyl-source-stream');
 
 
 // =========== production version ===========
@@ -38,8 +38,8 @@ gulp.task('serve', ['html', 'sass', 'js'], function() {
 
 gulp.task('html', function() {
     return gulp.src("./index.html")
-        // .pipe(gulp.dest('./dist'))
-        .pipe(browserSync.stream());
+      // .pipe(gulp.dest('./dist'))
+      .pipe(browserSync.stream());
 });
 
 
@@ -80,20 +80,17 @@ gulp.task('sass', function() {
 // });
 
 
+// ===========  JS Task with Brwoserfy ===========
 // gulp.task('js', function () {
 //     var bundler = browserify({
-//         entries: 'script.js',
+//         entries: 'app/app.js',
 //         debug: true
 //     });
-//     bundler.transform(babelify);
-//
+//     bundler.transform('babelify', {presets: ['es2015']});
 //     bundler.bundle()
 //         .on('error', function (err) { console.error(err); })
-//         .pipe(source('script.js'))
+//         .pipe(source('bundle.js'))
 //         .pipe(buffer())
-//         .pipe(sourcemaps.init({ loadMaps: true }))
-//         // .pipe(uglify()) // Use any gulp plugins you want now
-//         .pipe(sourcemaps.write('./'))
 //         .pipe(gulp.dest('dist'));
 // });
 

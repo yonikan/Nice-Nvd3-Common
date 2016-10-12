@@ -1,129 +1,182 @@
 
-var app = angular.module('nice', ['nvd3', 'gridster', 'nice.services', 'ui.bootstrap']);
+var app = angular.module('nice', ['ui.router', 'nvd3', 'gridster', 'ui.bootstrap', 'nice.services']);
 
 app
+
+.config(($locationProvider, $stateProvider, $urlRouterProvider) => {
+		"ngInject";
+
+		// Define our app routing, we will keep our layout inside the app component
+		// The layout route will be abstract and it will hold all of our app views
+		$stateProvider
+				.state('app', {
+						url: '/app',
+						abstract: true,
+						template: '<app></app>'
+				})
+
+				// Dashboard page to contain our goats list page
+				.state('app.home', {
+						url: '/home',
+						templateUrl: './pages/home/home.html'
+				})
+
+				// Create route for our goat listings creator
+				.state('app.create', {
+            url: '/chart',
+            templateUrl: './pages/chart/chart.html>'
+				});
+
+		$urlRouterProvider.otherwise('/app/home');
+})
+
+  // .config(($stateProvider, $urlRouterProvider) => {
+	//
+  //     $stateProvider
+  //         // .state('app', {
+  //         //     url: '/app',
+  //         //     abstract: true,
+  //         //     template: '<app></app>'
+  //         // })
+	//
+  //         .state('home', {
+  //             url: '/home',
+	// 						templateUrl: './pages/home/home.html'
+  //             // template: '<home></home>'
+  //         })
+	//
+  //         .state('chart', {
+  //             url: '/chart',
+  //             templateUrl: './pages/chart/chart.html>'
+	// 						// template: '<chart></chart>'
+  //         });
+	//
+  //     $urlRouterProvider.otherwise('/home');
+  // })
+
+
 	.controller('MainCtrl', ($scope, $timeout, DataService) => {
-  $scope.gridsterOptions = {
-		margins: [20, 20],
-		columns: 8,
-		mobileModeEnabled: false,
-		draggable: {
-			handle: 'h3'
-		},
-		resizable: {
-     enabled: true,
-     handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
+	  $scope.gridsterOptions = {
+			margins: [20, 20],
+			columns: 6,
+			mobileModeEnabled: false,
+			draggable: {
+				handle: 'h3'
+			},
+			resizable: {
+	     enabled: true,
+	     handles: ['n', 'e', 's', 'w', 'ne', 'se', 'sw', 'nw'],
 
-     // optional callback fired when resize is started
-     start: (event, $element, widget) => {},
+	     // optional callback fired when resize is started
+	     start: (event, $element, widget) => {},
 
-     // optional callback fired when item is resized,
-     resize: (event, $element, widget) => {
-       if (widget.chart.api) widget.chart.api.update();
-     },
+	     // optional callback fired when item is resized,
+	     resize: (event, $element, widget) => {
+	       if (widget.chart.api) widget.chart.api.update();
+	     },
 
-      // optional callback fired when item is finished resizing
-     stop: (event, $element, widget) => {
-       $timeout(() => {
-         if (widget.chart.api) widget.chart.api.update();
-       },400)
-     }
-    },
-	};
+	      // optional callback fired when item is finished resizing
+	     stop: (event, $element, widget) => {
+	       $timeout(() => {
+	         if (widget.chart.api) widget.chart.api.update();
+	       },400)
+	     }
+	    },
+		};
 
-	$scope.dashboard = {
-		widgets: [ {
-			col: 0,
-			row: 0,
-			sizeY: 1,
-			sizeX: 3,
-			name: "Stacked Area Chart Widget",
-			type: 'stackedAreaChart',
-			chart: {
-				options: DataService.stackedAreaChart.options(),
-				data: DataService.stackedAreaChart.data(),
-				api: {}
+		$scope.dashboard = {
+			widgets: [ {
+				col: 0,
+				row: 0,
+				sizeY: 2,
+				sizeX: 4,
+				name: "Stacked Area Chart Widget",
+				type: 'stackedAreaChart',
+				chart: {
+					options: DataService.stackedAreaChart.options(),
+					data: DataService.stackedAreaChart.data(),
+					api: {}
+				}
+			},
+			{
+			 	col: 7,
+			 	row: 0,
+			 	sizeY: 2,
+			 	sizeX: 2,
+			 	name: "Pie Chart Widget",
+			 	type: 'pieChart',
+			 	chart: {
+			 		options: DataService.pieChart.options(),
+			 		data: DataService.pieChart.data(),
+			 		api: {}
+			 	}
+			},
+			{
+				col: 0,
+				row: 3,
+				sizeY: 2,
+				sizeX: 2,
+				name: "Spring Campign",
+				chart: {
+				  options: DataService.discreteBarChart.options(),
+				  data: DataService.discreteBarChart.data(),
+				  api: {}
+				}
 			}
-		},
-		{
-		 	col: 7,
-		 	row: 0,
-		 	sizeY: 3,
-		 	sizeX: 2,
-		 	name: "Pie Chart Widget",
-		 	type: 'pieChart',
-		 	chart: {
-		 		options: DataService.pieChart.options(),
-		 		data: DataService.pieChart.data(),
-		 		api: {}
-		 	}
-		},
-		{
-			col: 0,
-			row: 3,
-			sizeY: 2,
-			sizeX: 3,
-			name: "Spring Campign",
-			chart: {
-			  options: DataService.discreteBarChart.options(),
-			  data: DataService.discreteBarChart.data(),
-			  api: {}
-			}
-		}
-		// {
-		// 	col: 0,
-		// 	row: 5,
-		// 	sizeY: 2,
-		// 	sizeX: 3,
-		// 	name: "Test Campign",
-		// 	chart: {
-		// 		options: DataService.multiBarChart.options(),
-		// 		data: DataService.multiBarChart.data(),
-		// 		api: {}
-		// 	}
-		// }
-	]
-	};
+			// {
+			// 	col: 0,
+			// 	row: 5,
+			// 	sizeY: 2,
+			// 	sizeX: 3,
+			// 	name: "Test Campign",
+			// 	chart: {
+			// 		options: DataService.multiBarChart.options(),
+			// 		data: DataService.multiBarChart.data(),
+			// 		api: {}
+			// 	}
+			// }
+		]
+		};
 
-  // We want to manually handle `window.resize` event in each directive.
-  // So that we emulate `resize` event using $broadcast method and internally subscribe to this event in each directive
-  // Define event handler
-  $scope.events = {
-    resize: function resize(e, scope) {
-      $timeout(() => {
-        scope.api.update()
-      },200)
-    }
-  };
-  angular.element(window).on('resize', (e) => {
-    $scope.$broadcast('resize');
-  });
+	  // We want to manually handle `window.resize` event in each directive.
+	  // So that we emulate `resize` event using $broadcast method and internally subscribe to this event in each directive
+	  // Define event handler
+	  $scope.events = {
+	    resize: function resize(e, scope) {
+	      $timeout(() => {
+	        scope.api.update()
+	      },200)
+	    }
+	  };
+	  angular.element(window).on('resize', (e) => {
+	    $scope.$broadcast('resize');
+	  });
 
-	// grid manipulation ========================================================
-	$scope.clear = () => {
-		$scope.dashboard.widgets = [];
-	};
+		// grid manipulation ========================================================
+		$scope.clear = () => {
+			$scope.dashboard.widgets = [];
+		};
 
-	$scope.addWidget = () => {
-		$scope.dashboard.widgets.push({
-			name: "New DE Chart",
-			sizeX: 2,
-			sizeY: 2
-		});
-	};
+		$scope.addWidget = () => {
+			$scope.dashboard.widgets.push({
+				name: "New DE Chart",
+				sizeX: 2,
+				sizeY: 2
+			});
+		};
 
-  // We want to hide the charts until the grid will be created and all widths and heights will be defined.
-  // So that use `visible` property in config attribute
-  $scope.config = {
-    visible: false
-  };
+	  // We want to hide the charts until the grid will be created and all widths and heights will be defined.
+	  // So that use `visible` property in config attribute
+	  $scope.config = {
+	    visible: false
+	  };
 
-  $timeout(() => {
-    $scope.config.visible = true;
-  }, 200);
+	  $timeout(() => {
+	    $scope.config.visible = true;
+	  }, 200);
 
-  //// init dashboard (selecting diffrent dashboards)
-  //$scope.selectedDashboardId = '1';
+	  //// init dashboard (selecting diffrent dashboards)
+	  //$scope.selectedDashboardId = '1';
 })
 
 

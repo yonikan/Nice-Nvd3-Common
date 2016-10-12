@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="nice">
-  <head> 
+  <head>
     <meta charset="utf-8" />
     <title>Nice</title>
     <script>document.write('<base href="' + document.location + '" />');</script>
@@ -29,13 +29,36 @@
 
     <div class="container container-new">
         <div class="wrap-dashboard">
-            <div class="dashboard">
-                <div class="page-header">
-                    <a class="pull-right btn btn-primary btn-sm" ng-click="addWidget()"><i class="glyphicon glyphicon-plus"></i> Add Widget</a>
-                    <!-- <a class="pull-right btn btn-warning btn-sm" ng-click="clear()"><i class="glyphicon glyphicon-trash"></i> Clear</a> -->
-                    <!-- <a class="pull-right btn btn-warning btn-sm" ng-click=""><i class="glyphicon glyphicon-floppy-open"></i> Save Dashboard</a> -->
-                    <select class="form-control input-sm"></select>
+
+            <!-- === navigation ===================================== -->
+            <nav class="navbar navbar-default">
+              <div class="container-fluid">
+
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="#">NICE Dashboard</a>
                 </div>
+
+                <div class="collapse navbar-collapse">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref="app.home"><a href="">Home</a></li>
+                    <li ui-sref="app.chart"><a href="">Chart</a></li>
+                  </ul>
+                  <a class="pull-right btn btn-primary btn-sm" ng-click="addWidget()"><i class="glyphicon glyphicon-plus"></i> Add Widget</a>
+                  <a class="pull-right btn btn-warning btn-sm" ng-click=""><i class="glyphicon glyphicon-floppy-open"></i> Save Dashboard</a>
+                </div>
+
+              </div>
+          </nav>
+
+            <!-- === Page View ===================================== -->
+            <!-- <div ui-view></div> -->
+            <div class="dashboard">
+                <!-- <div class="page-header">
+                    <h1>CHART page</h1><br />
+                    <a class="pull-right btn btn-primary btn-sm" ng-click="addWidget()"><i class="glyphicon glyphicon-plus"></i> Add Widget</a>
+                    <a class="pull-right btn btn-warning btn-sm" ng-click=""><i class="glyphicon glyphicon-floppy-open"></i> Save Dashboard</a>
+                    <select></select>
+                </div> -->
                 <div gridster="gridsterOptions">
                   <ul class="with-3d-shadow with-transitions">
                     <li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
@@ -44,9 +67,8 @@
                               <h3>{{ widget.name }}</h3>
                               <div class="box-header-btns pull-right" ng-controller="CustomWidgetCtrl">
                                   <a title="settings" ng-click="openSettings(widget)"><i class="glyphicon glyphicon-cog"></i></a>
+                                  <!-- <a title="open page" ui-sref="chart" ng-click=""><i class="glyphicon glyphicon-stats"></i></a> -->
                                   <a title="Remove widget" ng-click="remove(widget)"><i class="glyphicon glyphicon-trash"></i></a>
-                                  <!-- <a title="open page" ng-click=""><i class="glyphicon glyphicon-stats"></i></a> -->
-
                               </div>
                           </div>
                           <div class="box-content">
@@ -62,6 +84,7 @@
                   </ul>
                 </div>
             </div>
+
         </div>
     </div>
 
