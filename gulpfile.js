@@ -31,7 +31,7 @@ gulp.task('serve', ['sass', 'js'], function() {
     browserSync.init({server: "./"});
     // gulp.watch('./*.html', ['html']);
     gulp.watch('./app/**/*.scss', ['sass']);
-    gulp.watch("./app/**/*.js", ['js']);
+    gulp.watch("./app/*.js", ['js']);
 });
 
 

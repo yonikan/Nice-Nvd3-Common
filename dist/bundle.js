@@ -12,32 +12,34 @@
 
 var app = angular.module('nice', ['ui.router', 'nvd3', 'gridster', 'ui.bootstrap', 'nice.services']);
 
-app.config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
-		"ngInject";
+app
 
-		// Define our app routing, we will keep our layout inside the app component
-		// The layout route will be abstract and it will hold all of our app views
-
-		$stateProvider.state('app', {
-				url: '/app',
-				abstract: true,
-				template: '<app></app>'
-		})
-
-		// Dashboard page to contain our goats list page
-		.state('app.home', {
-				url: '/home',
-				templateUrl: './pages/home/home.html'
-		})
-
-		// Create route for our goat listings creator
-		.state('app.create', {
-				url: '/chart',
-				templateUrl: './pages/chart/chart.html>'
-		});
-
-		$urlRouterProvider.otherwise('/app/home');
-})
+// .config(($locationProvider, $stateProvider, $urlRouterProvider) => {
+// 		"ngInject";
+//
+// 		// Define our app routing, we will keep our layout inside the app component
+// 		// The layout route will be abstract and it will hold all of our app views
+// 		$stateProvider
+// 				.state('app', {
+// 						url: '/app',
+// 						abstract: true,
+// 						template: '<app></app>'
+// 				})
+//
+// 				// Dashboard page to contain our goats list page
+// 				.state('app.home', {
+// 						url: '/home',
+// 						templateUrl: './pages/home/home.html'
+// 				})
+//
+// 				// Create route for our goat listings creator
+// 				.state('app.create', {
+//             url: '/chart',
+//             templateUrl: './pages/chart/chart.html>'
+// 				});
+//
+// 		$urlRouterProvider.otherwise('/app/home');
+// })
 
 // .config(($stateProvider, $urlRouterProvider) => {
 //
