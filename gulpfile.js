@@ -14,6 +14,9 @@ var babelify = require('babelify');
 var buffer = require('vinyl-buffer');
 var source = require('vinyl-source-stream');
 
+// ===========  variables ===========
+var sassOptions = {outputStyle: 'expanded'};
+var autoprefixerOptions = {cascade: false};
 
 // =========== production version ===========
 var production = false;
@@ -21,26 +24,22 @@ var autoprefixer = require('gulp-autoprefixer');
 var cssnano = require('gulp-cssnano');
 var uglify = require('gulp-uglify');
 
-// ===========  variables ===========
-var sassOptions = {outputStyle: 'expanded'};
-var autoprefixerOptions = {cascade: false};
-
 
 
 // ===========  tasks ===========
-gulp.task('serve', ['html', 'sass', 'js'], function() {
+gulp.task('serve', ['sass', 'js'], function() {
     browserSync.init({server: "./"});
-    gulp.watch('./*.html', ['html']);
+    // gulp.watch('./*.html', ['html']);
     gulp.watch('./app/**/*.scss', ['sass']);
-    gulp.watch("./app/*.js", ['js']);
+    gulp.watch("./app/**/*.js", ['js']);
 });
 
 
-gulp.task('html', function() {
-    return gulp.src("./index.html")
-      // .pipe(gulp.dest('./dist'))
-      .pipe(browserSync.stream());
-});
+// gulp.task('html', function() {
+//     return gulp.src("./index.html")
+//       .pipe(gulp.dest('./dist'))
+//       .pipe(browserSync.stream());
+// });
 
 
 gulp.task('sass', function() {
