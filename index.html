@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html ng-app="nice">
+  <head>
+    <meta charset="utf-8" />
+    <title>Nice</title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.js"></script>
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css" media="screen">
+    <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+    <link rel="stylesheet" href="node_modules/nvd3/build/nv.d3.css">
+    <script src="node_modules/d3/d3.js"></script>
+    <script src="node_modules/nvd3/build/nv.d3.js"></script>
+    <script src="node_modules/angular-nvd3/dist/angular-nvd3.js"></script>
+
+    <link rel="stylesheet" href="node_modules/angular-gridster/dist/angular-gridster.min.css"/>
+    <script src="node_modules/angular-gridster/dist/angular-gridster.min.js"></script>
+
+    <link rel="stylesheet" href="dist/style.css" />
+    <script src="dist/bundle.js"></script>
+  </head>
+
+
+  <body ng-controller="MainCtrl">
+
+    <div class="container container-new">
+        <div class="wrap-dashboard">
+            <div class="dashboard">
+                <div class="page-header">
+                    <a class="pull-right btn btn-primary btn-sm" ng-click="addWidget()"><i class="glyphicon glyphicon-plus"></i> Add Widget</a>
+                    <!-- <a class="pull-right btn btn-warning btn-sm" ng-click="clear()"><i class="glyphicon glyphicon-trash"></i> Clear</a> -->
+                    <!-- <a class="pull-right btn btn-warning btn-sm" ng-click=""><i class="glyphicon glyphicon-floppy-open"></i> Save Dashboard</a> -->
+                    <select class="form-control input-sm"></select>
+                </div>
+                <div gridster="gridsterOptions">
+                  <ul class="with-3d-shadow with-transitions">
+                    <li gridster-item="widget" ng-repeat="widget in dashboard.widgets">
+                      <div class="box">
+                          <div class="box-header">
+                              <h3>{{ widget.name }}</h3>
+                              <div class="box-header-btns pull-right" ng-controller="CustomWidgetCtrl">
+                                  <a title="settings" ng-click="openSettings(widget)"><i class="glyphicon glyphicon-cog"></i></a>
+                                  <a title="Remove widget" ng-click="remove(widget)"><i class="glyphicon glyphicon-trash"></i></a>
+                                  <!-- <a title="open page" ng-click=""><i class="glyphicon glyphicon-stats"></i></a> -->
+
+                              </div>
+                          </div>
+                          <div class="box-content">
+                            <nvd3 options="widget.chart.options"
+                                  data="widget.chart.data"
+                                  api="widget.chart.api"
+                                  config="config"
+                                  events="events">
+                            </nvd3>
+                          </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  </body>
+</html>
