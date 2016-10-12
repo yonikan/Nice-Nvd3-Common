@@ -28,14 +28,23 @@ var autoprefixerOptions = {cascade: false};
 
 
 // ===========  tasks ===========
-gulp.task('serve', ['sass', 'js'], function() {
+gulp.task('serve', ['html', 'sass', 'js'], function() {
     browserSync.init({server: "./"});
-    gulp.watch('./scss/**/*.scss', ['sass']);
-    gulp.watch("./js/*.js", ['js']);
+    gulp.watch('./*.html', ['html']);
+    gulp.watch('./app/**/*.scss', ['sass']);
+    gulp.watch("./app/*.js", ['js']);
 });
 
+
+gulp.task('html', function() {
+    return gulp.src("./index.html")
+        // .pipe(gulp.dest('./dist'))
+        .pipe(browserSync.stream());
+});
+
+
 gulp.task('sass', function() {
-    return gulp.src("./scss/**/*.scss")
+    return gulp.src("./app/**/*.scss")
       .pipe(sourcemaps.init())
       .pipe(sass(sassOptions).on('error', sass.logError))
       .pipe(gulpif(production, autoprefixer(autoprefixerOptions), cssnano()))
@@ -90,7 +99,7 @@ gulp.task('sass', function() {
 
 
 gulp.task('js', function() {
-    return gulp.src('./js/*.js')
+    return gulp.src('./app/*.js')
       .pipe(sourcemaps.init())
       .pipe(babel())
       .pipe(concat('bundle.js'))

@@ -138,7 +138,7 @@ app
     $scope.openSettings = (widget) => {
       $uibModal.open({
         scope: $scope,
-        templateUrl: 'widgetSettings.html',
+        templateUrl: '../widgetSettings.html',
         controller: 'WidgetSettingsCtrl',
         resolve: {
           widget: () => {
